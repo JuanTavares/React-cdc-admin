@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import './css/pure-min.css';
 import './css/side-menu.css';
+import $ from 'jquery';
 
 class App extends Component {
 
 	constructor() {
 		super();
-		this.state = { lista: [{ nome: 'alberto', email: 'alberto.souza@caelum.com.br', senha: '123456' }] };
+		this.state = {
+			lista: [{ nome: 'Juan Carlos', email: 'juancarlos@caelum.com.br', senha: '123456' },
+				{ nome: 'Renan Augusto', email: 'renanaugusto@caelum.com.br', senha: '123456' }]
+		};
 	}
 
 	render() {
@@ -53,6 +57,32 @@ class App extends Component {
 							</form>
 						</div>
 					</div>
+
+					<div>
+						<table className="pure-table">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>email</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{
+									this.state.lista.map(function (autor) {
+										return (
+											<tr>
+												<td>{autor.nome}</td>
+												<td>{autor.email}</td>
+											</tr>
+										);
+									})
+								}
+
+							</tbody>
+						</table>
+					</div>
+
 				</div>
 			</div>
 		);
