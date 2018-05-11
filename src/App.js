@@ -6,7 +6,7 @@ class App extends Component {
 
 	constructor() {
 		super();
-		this.state = {};
+		this.state = { lista: [{ nome: 'alberto', email: 'alberto.souza@caelum.com.br', senha: '123456' }] };
 	}
 
 	render() {
