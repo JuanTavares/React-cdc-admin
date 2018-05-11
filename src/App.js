@@ -7,10 +7,18 @@ class App extends Component {
 
 	constructor() {
 		super();
-		this.state = {
-			lista: [{ nome: 'Juan Carlos', email: 'juancarlos@caelum.com.br', senha: '123456' },
-				{ nome: 'Renan Augusto', email: 'renanaugusto@caelum.com.br', senha: '123456' }]
-		};
+		this.state = { lista: [] };
+	}
+
+	componentWillMount() {
+		$.ajax({
+			url: 'http://cdc-react.herokuapp.com/api/autores',
+			dataType: 'json',
+			success: function (resposta) {
+				this.setState({ lista: resposta });
+			}.bind(this)
+		}
+		);
 	}
 
 	render() {
