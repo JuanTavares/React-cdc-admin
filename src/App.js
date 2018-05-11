@@ -3,6 +3,12 @@ import './css/pure-min.css';
 import './css/side-menu.css';
 
 class App extends Component {
+
+	constructor() {
+		super();
+		this.state = {};
+	}
+
 	render() {
 		return (
 			<div id="layout">
@@ -51,6 +57,6 @@ class App extends Component {
 			</div>
 		);
 	}
-} 
+}
 
 export default App;
