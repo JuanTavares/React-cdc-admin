@@ -11,7 +11,21 @@ class App extends Component {
 	}
 
 	enviaForm(evento) {
+		evento.preventDefault();
 
+		$.ajax({
+			url: 'http://cdc-react.herokuapp.com/api/autores',
+			contentType: 'application/json',
+			dataType: 'json',
+			type: 'post',
+			data: JSON.stringify({nome:'',email:'',senha:''}),
+			success: function (resposta) {
+				console.log('enviado com sucesso');
+			},
+			error: function (resposta) {
+				console.log('erro');
+			}
+		});
 	}
 
 	componentDidMount() {
