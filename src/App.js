@@ -10,6 +10,10 @@ class App extends Component {
 		this.state = { lista: [] };
 	}
 
+	enviaForm(evento) {
+
+	}
+
 	componentDidMount() {
 		$.ajax({
 			url: 'http://cdc-react.herokuapp.com/api/autores',
@@ -45,7 +49,7 @@ class App extends Component {
 					</div>
 					<div className="content" id="content">
 						<div className="pure-form pure-form-aligned">
-							<form className="pure-form pure-form-aligned">
+							<form className="pure-form pure-form-aligned" onSubmit={this.enviaForm} method="post">
 								<div className="pure-control-group">
 									<label htmlFor="nome">Nome</label>
 									<input id="nome" type="text" name="nome" value="" />
