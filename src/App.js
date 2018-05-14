@@ -7,7 +7,7 @@ class App extends Component {
 
 	constructor() {
 		super();
-		this.state = { lista: [] };
+		this.state = { lista: [], nome: '', email: '', senha: '' };
 	}
 
 	enviaForm(evento) {
@@ -18,7 +18,7 @@ class App extends Component {
 			contentType: 'application/json',
 			dataType: 'json',
 			type: 'post',
-			data: JSON.stringify({nome:'',email:'',senha:''}),
+			data: JSON.stringify({ nome: this.state.nome, email: this.state.email, senha: this.state.senha }),
 			success: function (resposta) {
 				console.log('enviado com sucesso');
 			},
