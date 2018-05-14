@@ -67,15 +67,15 @@ class App extends Component {
 							<form className="pure-form pure-form-aligned" onSubmit={this.enviaForm} method="post">
 								<div className="pure-control-group">
 									<label htmlFor="nome">Nome</label>
-									<input id="nome" type="text" name="nome" value="" />
+									<input id="nome" type="text" name="nome" value={this.state.nome}/>
 								</div>
 								<div className="pure-control-group">
 									<label htmlFor="email">Email</label>
-									<input id="email" type="email" name="email" value="" />
+									<input id="email" type="email" name="email" value={this.state.email} />
 								</div>
 								<div className="pure-control-group">
 									<label htmlFor="senha">Senha</label>
-									<input id="senha" type="password" name="senha" />
+									<input id="senha" type="password" value={this.state.senha} />
 								</div>
 								<div className="pure-control-group">
 									<label></label>
