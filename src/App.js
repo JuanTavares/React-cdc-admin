@@ -8,6 +8,7 @@ class App extends Component {
 	constructor() {
 		super();
 		this.state = { lista: [], nome: '', email: '', senha: '' };
+		this.enviaForm = this.enviaForm.bind(this);
 	}
 
 	enviaForm(evento) {
