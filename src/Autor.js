@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import InputCustomizado from './componentes/InputCustomizado';
 import PubSub from 'pubsub-js';
+import TratadorErros from './TratadorErros';
 
 class FormularioAutor extends Component {
 
@@ -16,7 +17,6 @@ class FormularioAutor extends Component {
 
     enviaForm(evento) {
         evento.preventDefault();
-
         $.ajax({
             url: 'http://cdc-react.herokuapp.com/api/autores',
             contentType: 'application/json',
@@ -28,7 +28,12 @@ class FormularioAutor extends Component {
                 this.setState({ nome: '', email: '', senha: '' });
             }.bind(this),
             error: function (resposta) {
-                console.log('erro');
+                if (resposta.status === 400) {
+                    new TratadorErros().publicaErros(resposta.responseJSON);
+                }
+            },
+            beforeSend: function () {
+                PubSub.publish('limpa-erros', {});
             }
         });
     }
@@ -46,8 +51,20 @@ class FormularioAutor extends Component {
     }
 
     render() {
+        return (
+            <div className="pure-form pure-form-aligned">
+                <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm} method="post">
+                    <InputCustomizado id="nome" type="text" name="nome" value={this.state.nome} onChange={this.setNome} label="Nome" />
+                    <InputCustomizado id="email" type="email" name="email" value={this.state.email} onChange={this.setEmail} label="Email" />
+                    <InputCustomizado id="senha" type="password" name="senha" value={this.state.senha} onChange={this.setSenha} label="Senha" />
+                    <div className="pure-control-group">
+                        <label></label>
+                        <button type="submit" className="pure-button pure-button-primary">Gravar</button>
+                    </div>
+                </form>
 
-        return;
+            </div>
+        );
     }
 }
 
@@ -104,7 +121,6 @@ export default class AutorBox extends Component {
     }
 
     render() {
-
         return (
             <div>
                 <FormularioAutor />
