@@ -6,15 +6,6 @@ import InputCustomizado from './componentes/InputCustomizado';
 
 class App extends Component {
 
-	constructor() {
-		super();
-		this.state = { lista: [], nome: '', email: '', senha: '' };
-		this.enviaForm = this.enviaForm.bind(this);
-		this.setNome = this.setNome.bind(this);
-		this.setEmail = this.setEmail.bind(this);
-		this.setSenha = this.setSenha.bind(this);
-	}
-
 	enviaForm(evento) {
 		evento.preventDefault();
 
