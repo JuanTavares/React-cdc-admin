@@ -23,9 +23,9 @@ class FormularioAutor extends Component {
             dataType: 'json',
             type: 'post',
             data: JSON.stringify({ nome: this.state.nome, email: this.state.email, senha: this.state.senha }),
-            success: function (resposta) {
-                console.log('enviado com sucesso');
-                this.setState({ lista: resposta });
+            success: function (novaListagem) {
+                PubSub.publish('atualiza-lista-autores', novaListagem);
+                this.setState({ nome: '', email: '', senha: '' });
             }.bind(this),
             error: function (resposta) {
                 console.log('erro');
@@ -97,6 +97,10 @@ export default class AutorBox extends Component {
             }.bind(this)
         }
         );
+
+        PubSub.subscribe('atualiza-lista-autores', function (topico, novaLista) {
+            this.setState({ lista: novaLista });
+        }.bind(this));
     }
 
     render() {
