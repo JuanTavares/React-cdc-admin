@@ -23,16 +23,16 @@ class FormularioAutor extends Component {
             dataType: 'json',
             type: 'post',
             data: JSON.stringify({ nome: this.state.nome, email: this.state.email, senha: this.state.senha }),
-            success: function (novaListagem) {
+            success: (novaListagem) => {
                 PubSub.publish('atualiza-lista-autores', novaListagem);
                 this.setState({ nome: '', email: '', senha: '' });
-            }.bind(this),
-            error: function (resposta) {
+            },
+            error: (resposta) => {
                 if (resposta.status === 400) {
                     new TratadorErros().publicaErros(resposta.responseJSON);
                 }
             },
-            beforeSend: function () {
+            beforeSend: () => {
                 PubSub.publish('limpa-erros', {});
             }
         });
@@ -82,7 +82,7 @@ class TabelaAutores extends Component {
                     </thead>
                     <tbody>
                         {
-                            this.props.lista.map(function (autor) {
+                            this.props.lista.map(autor => {
                                 return (
                                     <tr key={autor.id}>
                                         <td>{autor.nome}</td>
@@ -109,15 +109,15 @@ export default class AutorBox extends Component {
         $.ajax({
             url: 'http://cdc-react.herokuapp.com/api/autores',
             dataType: 'json',
-            success: function (resposta) {
+            success: (resposta) => {
                 this.setState({ lista: resposta });
-            }.bind(this)
+            }
         }
         );
 
-        PubSub.subscribe('atualiza-lista-autores', function (topico, novaLista) {
+        PubSub.subscribe('atualiza-lista-autores', (topico, novaLista) => {
             this.setState({ lista: novaLista });
-        }.bind(this));
+        });
     }
 
     render() {
