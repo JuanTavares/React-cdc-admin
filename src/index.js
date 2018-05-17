@@ -17,6 +17,7 @@ ReactDOM.render((
                 <Route path="/livro" component={Livro} />
             </Switch>
         </App>
-    </Router>)
+    </Router>
+), document.getElementById('root')
 );
 registerServiceWorker();
