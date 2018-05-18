@@ -8,11 +8,11 @@ class FormularioLivro extends Component {
 
     constructor() {
         super();
-        this.state = { titulo: '', preco: '', autor: '' };
+        this.state = { titulo: '', preco: '', autorID: '' };
         this.enviaForm = this.enviaForm.bind(this);
         this.setTitulo = this.setTitulo.bind(this);
         this.setPreco = this.setPreco.bind(this);
-        this.setAutor = this.setAutor.bind(this);
+        this.setautorId = this.setautorId.bind(this);
     }
 
     enviaForm(evento) {
@@ -22,10 +22,10 @@ class FormularioLivro extends Component {
             contentType: 'application/json',
             dataType: 'json',
             type: 'post',
-            data: JSON.stringify({ titulo: this.state.titulo, preco: this.state.preco, autor: this.state.autor }),
+            data: JSON.stringify({ titulo: this.state.titulo, preco: this.state.preco, autorId: this.state.autorId }),
             success: (novaListagem) => {
                 PubSub.publish('atualiza-lista-livros', novaListagem);
-                this.setState({ titulo: '', preco: '', autor: '' });
+                this.setState({ titulo: '', preco: '', autorId: '' });
             },
             error: (resposta) => {
                 if (resposta.status === 400) {
@@ -46,8 +46,8 @@ class FormularioLivro extends Component {
         this.setState({ preco: evento.target.value });
     }
 
-    setAutor(evento) {
-        this.setState({ autor: evento.target.value });
+    setautorId(evento) {
+        this.setState({ autorId: evento.target.value });
     }
 
     render() {
@@ -56,7 +56,19 @@ class FormularioLivro extends Component {
                 <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm} method="post">
                     <InputCustomizado id="titulo" type="text" name="titulo" value={this.state.titulo} onChange={this.setTitulo} label="Titulo" />
                     <InputCustomizado id="preco" type="number" name="preco" value={this.state.preco} onChange={this.setPreco} label="Preco" />
-                    <InputCustomizado id="autor" type="text" name="autor" value={this.state.autor} onChange={this.setAutor} label="Autor" />
+                    <div className="pure-control-group">
+                        <label htmlFor={this.props.id}>{this.props.label}</label>
+                        <select value={this.state.autorId} name="autorId" onChange={this.setAutorId}>
+                            <option value="">Selecione</option>
+                            {
+                                this.props.autores.map((autor) => {
+                                    return <option key={autor.id} value={autor.id}>
+                                        {autor.nome}
+                                    </option>;
+                                })
+                            }
+                        </select>
+                    </div>
                     <div className="pure-control-group">
                         <label></label>
                         <button type="submit" className="pure-button pure-button-primary">Gravar</button>
@@ -68,15 +80,45 @@ class FormularioLivro extends Component {
     }
 }
 
+class TabelaLivros extends Component {
 
     render() {
+        return (
+            <div>
+                <table className="pure-table">
+                    <thead>
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Preco</th>
+                            <th>Autor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            this.props.lista.map(livro => {
+                                return (
+                                    <tr key={livro.id}>
+                                        <td>{livro.titulo}</td>
+                                        <td>{livro.preco}</td>
+                                        <td>{livro.autorId.nome}</td>
+                                    </tr>
+                                );
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
+}
 
-        return;
+
+
 export default class LivroBox extends Component {
 
     constructor() {
         super();
-        this.state = { lista: [] };
+        this.state = { lista: [], autores: [] };
     }
 
     componentDidMount() {
@@ -89,7 +131,16 @@ export default class LivroBox extends Component {
         }
         );
 
-        PubSub.subscribe('atualiza-lista-autores', (topico, novaLista) => {
+        $.ajax({
+            url: 'http://cdc-react.herokuapp.com/api/autores',
+            dataType: 'json',
+            success: (resposta) => {
+                this.setState({ autores: resposta });
+            }
+        }
+        );
+
+        PubSub.subscribe('atualiza-lista-livros', (topico, novaLista) => {
             this.setState({ lista: novaLista });
         });
     }
@@ -101,7 +152,8 @@ export default class LivroBox extends Component {
                     <h1>Cadastro de Livros</h1>
                 </div>
                 <div className="content" id="content">
-                    <FormularioLivro />
+                    <FormularioLivro autores={this.state.autores} />
+                    <TabelaLivros lista={this.state.lista} />
                 </div>
             </div>
         );
