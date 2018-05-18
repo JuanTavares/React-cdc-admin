@@ -12,7 +12,7 @@ class FormularioLivro extends Component {
         this.enviaForm = this.enviaForm.bind(this);
         this.setTitulo = this.setTitulo.bind(this);
         this.setPreco = this.setPreco.bind(this);
-        this.setautorId = this.setautorId.bind(this);
+        this.setAutorId = this.setAutorId.bind(this);
     }
 
     enviaForm(evento) {
@@ -46,7 +46,7 @@ class FormularioLivro extends Component {
         this.setState({ preco: evento.target.value });
     }
 
-    setautorId(evento) {
+    setAutorId(evento) {
         this.setState({ autorId: evento.target.value });
     }
 
@@ -55,10 +55,10 @@ class FormularioLivro extends Component {
             <div className="pure-form pure-form-aligned">
                 <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm} method="post">
                     <InputCustomizado id="titulo" type="text" name="titulo" value={this.state.titulo} onChange={this.setTitulo} label="Titulo" />
-                    <InputCustomizado id="preco" type="number" name="preco" value={this.state.preco} onChange={this.setPreco} label="Preco" />
+                    <InputCustomizado id="preco" type="text" name="preco" value={this.state.preco} onChange={this.setPreco} label="Preco" />
                     <div className="pure-control-group">
-                        <label htmlFor={this.props.id}>{this.props.label}</label>
-                        <select value={this.state.autorId} name="autorId" onChange={this.setAutorId}>
+                        <label htmlFor="AutorId">Autor</label>
+                        <select value={this.state.autorId} name="autorId" id="autorID" onChange={this.setAutorId}>
                             <option value="">Selecione</option>
                             {
                                 this.props.autores.map((autor) => {
@@ -100,7 +100,7 @@ class TabelaLivros extends Component {
                                     <tr key={livro.id}>
                                         <td>{livro.titulo}</td>
                                         <td>{livro.preco}</td>
-                                        <td>{livro.autorId.nome}</td>
+                                        <td>{livro.autor.nome}</td>
                                     </tr>
                                 );
                             })
