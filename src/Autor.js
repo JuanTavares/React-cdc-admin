@@ -10,9 +10,7 @@ class FormularioAutor extends Component {
         super();
         this.state = { nome: '', email: '', senha: '' };
         this.enviaForm = this.enviaForm.bind(this);
-        this.setNome = this.setNome.bind(this);
-        this.setEmail = this.setEmail.bind(this);
-        this.setSenha = this.setSenha.bind(this);
+        this.salvaAlteracao = this.salvaAlteracao.bind(this);
     }
 
     enviaForm(evento) {
@@ -38,16 +36,10 @@ class FormularioAutor extends Component {
         });
     }
 
-    setNome(evento) {
-        this.setState({ nome: evento.target.value });
-    }
-
-    setEmail(evento) {
-        this.setState({ email: evento.target.value });
-    }
-
-    setSenha(evento) {
-        this.setState({ senha: evento.target.value });
+    salvaAlteracao(nomeInput, evento) {
+        var campoSendoAlterado = [];
+        campoSendoAlterado[nomeInput] = evento.target.value;
+        this.setState(campoSendoAlterado);
     }
 
     render() {
